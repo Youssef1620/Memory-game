@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!-- ------------------------------------ -->
+<head>
+    <meta charset="utf-8"> 
+    <title>Memory Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="E:\web dev 2 tests\memory game\MG.css">
+</head>
+<!-- ------------------------------------ -->
+<body>
+    <div class="control-panel">
+        <span>Start New Game</span>
+    </div>
+    <!-- ------------------------------------ -->
+    <div class="info-container">
+        <div class="name">
+            Welcome: <span></span>
+        </div>
+        <div class="tries">
+            Wrong tries: <span>0</span>
+        </div>
+    </div>
+    <!-- ------------------------------------ -->
+     <div class="game-container">
+        <div class="blocks" data-technology="apple">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\apple (3).png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="apple">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\apple (3).png">
+            </div>
+        </div>
+        <!-- ------------------------------------ -->
+        <div class="blocks" data-technology="pineapple">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\pineapple_4791196.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="pineapple">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\pineapple_4791196.png" alt="">
+            </div>
+        </div>
+        <!-- ------------------------------------ -->
+        <div class="blocks" data-technology="mango">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Mango.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="mango">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Mango.png" alt="ap">
+            </div>
+        </div>
+        <!-- ------------------------------------ -->
+        <div class="blocks" data-technology="blueberry">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Blue berry.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="blueberry">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Blue berry.png" alt="">
+            </div>
+        </div>
+        <!-- ------------------------------------ -->
+        <div class="blocks" data-technology="orange">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Orange.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="orange">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Orange.png" alt="">
+            </div>
+        </div>
+    <!-- ------------------------------------ -->
+    <div class="blocks" data-technology="grapes">
+        <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Grapes.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="grapes">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\Grapes.png" alt="">
+            </div>
+    </div>
+    <!-- ------------------------------------ -->
+    <div class="blocks" data-technology="strawberry">
+        <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\strawberry_19024878.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="strawberry">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\strawberry_19024878.png" alt="">
+            </div>
+    </div>
+    <!-- ------------------------------------ -->
+    <div class="blocks" data-technology="bannana">
+        <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\banana_433682.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="bannana">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\banana_433682.png" alt="">
+            </div>
+    </div>
+    <!-- ------------------------------------ -->
+    <div class="blocks" data-technology="kiwi">
+        <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\kiwi.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="kiwi">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\kiwi.png" alt="">
+            </div>
+    </div>
+    <!-- ------------------------------------ -->
+    <div class="blocks" data-technology="melon">
+        <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\fruit_13768533.png" alt="">
+            </div>
+        </div>
+        <div class="blocks" data-technology="melon">
+            <div class="front-blocks face">
+            </div>
+            <div class="back-blocks face">
+                <img src="E:\web dev 2 tests\memory game\images\fruit_13768533.png" alt="">
+            </div>
+    </div>
+</div>
+<!-- ---------------------------- -->
+     <div class="control-panel-won" id="win-panel">
+        <h1> Nice! You Won </h1>
+        <br>
+        <span id="win-btn">Start New Game</span>
+    </div>
+<!-- ---------------------------- -->
+     <div class="control-panel-lost" id="lost-panel">
+        <h1> sorry! But You Lost </h1>
+        <br>
+        <span id="lost-btn">try again</span>
+    </div>
+<!-- ---------------------------- -->
+    <div class="try" id="try-ag">
+        <Span>Try Again</Span>
+    </div>
+<!-- ------------------------------------ -->
+     <audio src="E:\web dev 2 tests\memory game\audio\win.mp3" id="win" preload="auto"></audio>
+     <audio src="E:\web dev 2 tests\memory game\audio\lost.mp3" id="lost" preload="auto"></audio>
+     <audio src="E:\web dev 2 tests\memory game\audio\Matched.mp3" id="true" preload="auto"></audio>
+     <audio src="E:\web dev 2 tests\memory game\audio\wrong.mp3" id="wrong" preload="auto"></audio>
+     <audio src="E:\web dev 2 tests\memory game\audio\Start.mp3" id="start" preload="auto"></audio>
+     <audio src="E:\web dev 2 tests\memory game\audio\Music.mp3" id="music" preload="auto" loopgit push -u origin main></audio>
+    <!-- ------------------------------------ -->
+    <script src="E:\web dev 2 tests\memory game\MG.JS"></script>
+    <!-- ------------------------------------ -->
+</body>
+<!-- ------------------------------------ -->
+</html>

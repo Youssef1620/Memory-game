@@ -1,0 +1,187 @@
+*{box-sizing: border-box;}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.control-panel{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgb(33 150 243 / 82%);
+}
+.control-panel span{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(76, 0, 99, 1);
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 20px;
+    border-bottom: 3px solid  fuchsia;
+    border-left: 3px solid fuchsia;
+}
+.control-panel span:hover{
+    background-color: rgba(100, 30, 99, 0.9);
+    border: 1px solid fuchsia;
+}
+.info-container{
+    width: 1080px;
+    margin: 20px auto 0px;
+    background-color: #f6f6f6;
+    padding: 20px;
+    font-size: 24px;
+    overflow: hidden;
+    border: 2px solid #2196f3;
+    z-index: 1;
+}
+.info-container .name{
+    width: 50%;
+    float: left;
+}
+.info-container .tries{
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+.game-container{
+    display: flex;
+    width: 1100px;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    align-items: center;
+    z-index: 1
+    ;
+}
+.game-container .blocks{
+    height: 200px;
+    cursor: pointer;
+    transition: transform .5s;
+    transform-style: preserve-3d;
+    flex: 1 0 200px;
+    margin: 0px 10px 20px;
+    position: relative;
+}
+.game-container .blocks .front-blocks{
+    background-color: #333;
+    line-height: 200px;
+}
+.game-container .blocks .front-blocks:before{
+    content: '?';
+    color: white;
+    font-size: 128px;
+    font-weight: bold;
+}
+.game-container .blocks .back-blocks{
+    background-color: #607D88;
+    transform: rotateY(180deg);
+    line-height: 200px;
+}
+.game-container .blocks .back-blocks img{
+    width: 140px;
+    height: 140px;
+    margin-top: 30px;
+}
+.face{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    backface-visibility: hidden;
+    border: 3px solid #2196f3 ;
+}
+.is-flipped,
+.matched{
+    transform: rotateY(180deg);
+    pointer-events: none;
+}
+.no-clicking{
+    pointer-events: none;
+}
+.try{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.try span{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(76, 0, 99, 1);
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 20px;
+    border-bottom: 3px solid  fuchsia;
+    border-left: 3px solid fuchsia;
+}
+.try span:hover{
+    background-color: rgba(100, 30, 99, 0.9);
+    border: 1px solid fuchsia;
+}
+
+.control-panel-won,
+.control-panel-lost {
+    display: none; /* دي اللي بتخليه مختفي لحد ما يشتغل بالـ JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(33 150 243 / 82%); /* خلفية سوداء شفافة تغطي الشاشة */
+    flex-direction: column; /* دي أهم حاجة عشان تخلي الـ h1 والزرار تحت بعض مش جنب بعض */
+    justify-content: center; /* توسيط عمودي */
+    align-items: center;     /* توسيط أفقي */
+    z-index: 9999;           /* عشان تضمن إنها فوق كل عناصر اللعبة */
+}
+
+/* تنسيق نص الـ h1 جوه الشاشات دي عشان يظهر واضح وبألوان حلوة */
+.control-panel-won h1,
+.control-panel-lost h1 {
+    color: #ffffff;          /* لون أبيض واضح */
+    font-size: 2.5rem;       /* حجم كبير ومميز */
+    margin-bottom: 20px;     /* مسافة بينه وبين الزرار */
+    text-align: center;
+}
+.control-panel-won span,
+.control-panel-lost span {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: rgba(76, 0, 99, 1);
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    border-bottom: 3px solid  fuchsia;
+    border-left: 3px solid fuchsia;
+}
+
+
+/* تأثير لما الماوس ييجي على الزرار */
+.control-panel-won span:hover,
+.control-panel-lost span:hover {
+    background-color: rgba(100, 30, 99, 0.9);
+    border: 1px solid fuchsia;
+    transform: translateY(-2px);
+}
