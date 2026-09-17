@@ -90,7 +90,7 @@ const cardsData = [
     },
     {
         name: "blueberry",
-        image: "images/blueberry.png",
+        image: "images/berry.png",
         alt: "Blueberry"
     },
     {
