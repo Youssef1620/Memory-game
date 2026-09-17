@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+
+    <link rel="stylesheet" href="MG.css">
+</head>
+
+<body>
+
+    <!-- شاشة البداية -->
+    <section class="screen-panel start-panel" id="start-panel">
+        <div class="panel-card">
+            <p class="panel-kicker">Memory Game</p>
+
+            <h1>Get Ready To Play</h1>
+
+            <p class="panel-description">
+                Choose the difficulty and match all the cards.
+            </p>
+
+            <div class="difficulty-box">
+                <h2>اختر مستوى الصعوبة</h2>
+
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-start"
+                            value="20"
+                            data-difficulty
+                            checked>
+
+                        <span>
+                            سهل
+                            <strong>20</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-start"
+                            value="10"
+                            data-difficulty>
+
+                        <span>
+                            متوسط
+                            <strong>10</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-start"
+                            value="5"
+                            data-difficulty>
+
+                        <span>
+                            صعب
+                            <strong>5</strong>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button
+                class="primary-button"
+                id="start-btn"
+                type="button">
+
+                Start New Game
+            </button>
+        </div>
+    </section>
+
+    <main class="page-content">
+
+        <!-- معلومات اللعبة -->
+        <div class="info-container">
+
+            <div class="info-item">
+                <span class="info-label">Welcome</span>
+                <strong id="player-name">unknown</strong>
+            </div>
+
+            <!-- زر الموسيقى -->
+            <div class="music-control">
+                <span class="info-label">Music</span>
+
+                <button
+                    class="music-switch is-on"
+                    id="music-toggle"
+                    type="button"
+                    aria-pressed="true"
+                    aria-label="Turn background music off">
+
+                    <span class="switch-track">
+                        <span class="switch-thumb"></span>
+                    </span>
+
+                    <span class="switch-state">On</span>
+                </button>
+            </div>
+
+            <div class="info-item tries">
+                <span class="info-label">Wrong tries</span>
+                <strong id="tries-count">0</strong>
+            </div>
+        </div>
+
+        <!-- الكروت سيتم إنشاؤها من JavaScript -->
+        <div
+            class="game-container"
+            id="game-container">
+        </div>
+
+        <!-- زر المحاولة مرة أخرى -->
+        <button
+            class="try-again-button"
+            id="try-again-btn"
+            type="button">
+
+            Try Again
+        </button>
+    </main>
+
+    <!-- شاشة الفوز -->
+    <section
+        class="screen-panel result-panel"
+        id="win-panel"
+        aria-hidden="true">
+
+        <div class="panel-card">
+            <p class="panel-kicker">Great job</p>
+
+            <h1>Nice! You Won</h1>
+
+            <div class="difficulty-box">
+                <h2>اختر مستوى الصعوبة</h2>
+
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-win"
+                            value="20"
+                            data-difficulty
+                            checked>
+
+                        <span>
+                            سهل
+                            <strong>20</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-win"
+                            value="10"
+                            data-difficulty>
+
+                        <span>
+                            متوسط
+                            <strong>10</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-win"
+                            value="5"
+                            data-difficulty>
+
+                        <span>
+                            صعب
+                            <strong>5</strong>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button
+                class="primary-button"
+                id="win-btn"
+                type="button">
+
+                Start New Game
+            </button>
+        </div>
+    </section>
+
+    <!-- شاشة الخسارة -->
+    <section
+        class="screen-panel result-panel"
+        id="lost-panel"
+        aria-hidden="true">
+
+        <div class="panel-card">
+            <p class="panel-kicker">Keep trying</p>
+
+            <h1>Sorry! You Lost</h1>
+
+            <div class="difficulty-box">
+                <h2>اختر مستوى الصعوبة</h2>
+
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-lost"
+                            value="20"
+                            data-difficulty
+                            checked>
+
+                        <span>
+                            سهل
+                            <strong>20</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-lost"
+                            value="10"
+                            data-difficulty>
+
+                        <span>
+                            متوسط
+                            <strong>10</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-lost"
+                            value="5"
+                            data-difficulty>
+
+                        <span>
+                            صعب
+                            <strong>5</strong>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button
+                class="primary-button"
+                id="lost-btn"
+                type="button">
+
+                Try Again
+            </button>
+        </div>
+    </section>
+
+    <!-- ملفات الصوت -->
+    <audio
+        id="music"
+        src="audio/Music.mp3"
+        preload="auto"
+        loop>
+    </audio>
+
+    <audio
+        id="start-sound"
+        src="audio/Start.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="win-sound"
+        src="audio/win.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="lost-sound"
+        src="audio/lost.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="matched-sound"
+        src="audio/Matched.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="wrong-sound"
+        src="audio/wrong.mp3"
+        preload="auto">
+    </audio>
+
+    <script src="MG.JS"></script>
+</body>
+</html>
