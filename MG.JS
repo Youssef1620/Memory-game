@@ -95,7 +95,7 @@ const cardsData = [
     },
     {
         name: "orange",
-        image: "images/Orange.png",
+        image: "images/orange.png",
         alt: "Orange"
     },
     {
