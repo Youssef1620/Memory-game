@@ -1,237 +1,686 @@
-document.querySelector(".control-panel span").onclick = function(){
+// =========================
+// Memory Game - Complete JS
+// =========================
 
-    let Ready = prompt("Are You Ready?  Type 'Yes' To Continue ")
-    
-    if(Ready=="Yes" || Ready=="yes" || Ready=="YES" || Ready=="yEs" || Ready=="yeS"){
+// =========================
+// عناصر الصفحة
+// =========================
 
+const gameContainer =
+    document.getElementById("game-container");
+
+const startPanel =
+    document.getElementById("start-panel");
+
+const winPanel =
+    document.getElementById("win-panel");
+
+const lostPanel =
+    document.getElementById("lost-panel");
+
+const startButton =
+    document.getElementById("start-btn");
+
+const winButton =
+    document.getElementById("win-btn");
+
+const lostButton =
+    document.getElementById("lost-btn");
+
+const tryAgainButton =
+    document.getElementById("try-again-btn");
+
+const playerNameElement =
+    document.getElementById("player-name");
+
+const triesElement =
+    document.getElementById("tries-count");
+
+const musicToggle =
+    document.getElementById("music-toggle");
+
+const backgroundMusic =
+    document.getElementById("music");
+
+const difficultyInputs = Array.from(
+    document.querySelectorAll(
+        "input[data-difficulty]"
+    )
+);
+
+// =========================
+// متغيرات اللعبة
+// =========================
+
+let selectedDifficulty =
+    difficultyInputs.find(
+        (input) => input.checked
+    )?.value || "20";
+
+let maxWrongAllowed =
+    Number(selectedDifficulty);
+
+let musicEnabled = true;
+let gameRound = 0;
+
+const duration = 1000;
+
+let blocks = [];
+let orderRange = [];
+
+// =========================
+// بيانات الكروت
+// =========================
+
+const cardsData = [
+    {
+        name: "apple",
+        image: "images/apple (3).png",
+        alt: "Apple"
+    },
+    {
+        name: "pineapple",
+        image: "images/pineapple_4791196.png",
+        alt: "Pineapple"
+    },
+    {
+        name: "mango",
+        image: "images/Mango.png",
+        alt: "Mango"
+    },
+    {
+        name: "blueberry",
+        image: "images/Blue berry.png",
+        alt: "Blueberry"
+    },
+    {
+        name: "orange",
+        image: "images/Orange.png",
+        alt: "Orange"
+    },
+    {
+        name: "grapes",
+        image: "images/Grapes.png",
+        alt: "Grapes"
+    },
+    {
+        name: "strawberry",
+        image: "images/strawberry_19024878.png",
+        alt: "Strawberry"
+    },
+    {
+        name: "banana",
+        image: "images/banana_433682.png",
+        alt: "Banana"
+    },
+    {
+        name: "kiwi",
+        image: "images/kiwi.png",
+        alt: "Kiwi"
+    },
+    {
+        name: "melon",
+        image: "images/fruit_13768533.png",
+        alt: "Melon"
     }
-    else{
+];
+
+// =========================
+// إنشاء الكروت
+// =========================
+
+function createCards() {
+    if (!gameContainer) {
         return;
     }
 
-    let yourName = prompt("Enter Your Name!")
+    // إذا كانت الكروت موجودة في HTML لا تنشئها مرة أخرى
+    let existingBlocks =
+        gameContainer.querySelectorAll(".blocks");
 
-    if (yourName==null || yourName=="") {
+    if (existingBlocks.length === 0) {
+        const allCards = [
+            ...cardsData,
+            ...cardsData
+        ];
 
-        document.querySelector(".name span").innerHTML = 'unknown';
+        allCards.forEach((card) => {
+            const block =
+                document.createElement("article");
 
-        document.getElementById('start').play();
+            block.className = "blocks";
+            block.dataset.technology = card.name;
+
+            block.innerHTML = `
+                <div class="front-blocks face"></div>
+
+                <div class="back-blocks face">
+                    <img
+                        src="${card.image}"
+                        alt="${card.alt}">
+                </div>
+            `;
+
+            gameContainer.appendChild(block);
+        });
     }
-    else{
 
-        document.querySelector(".name span").innerHTML = yourName ; 
+    blocks = Array.from(
+        gameContainer.querySelectorAll(".blocks")
+    );
 
-        document.getElementById('start').play();
-    }
+    orderRange = blocks.map(
+        (_, index) => index
+    );
 
-    document.querySelector(".control-panel").remove();
-};
-let duration = 1000;
-
-let blocksContainer = document.querySelector(".game-container");
-
-let blockss =Array.from(blocksContainer.children);
-
-let orderRange =[...Array(blockss.length).keys()];
-
-
-shuffle(orderRange);
-
-blockss.forEach((blocks, index) => {
-    
-    blocks.style.order = orderRange[index];
-    
-    blocks.addEventListener('click', function(){
-        
-        flipBlock(blocks);
-
-    })
-
-})
-
-function flipBlock(selectedBlock)
-{
-    selectedBlock.classList.add('is-flipped');
-    
-    let allFlippedBlock = blockss.filter(flippedBlock =>  flippedBlock.classList.contains('is-flipped'))
-    
-    if (allFlippedBlock.length === 2) {
-        
-        stopClicking()
-        
-        checkMatchedBlocks(allFlippedBlock[0], allFlippedBlock[1])
-        
-    }
-    
-    function stopClicking() {
-        
-        blocksContainer.classList.add('no-clicking')
-        
-        setTimeout(() =>  {
-                        
-            blocksContainer.classList.remove('no-clicking')
-
-        },1500)
-        
-    }
-    
+    blocks.forEach((block) => {
+        block.addEventListener(
+            "click",
+            () => {
+                flipBlock(block);
+            }
+        );
+    });
 }
 
-function checkMatchedBlocks(firstBlock, secondBlock){
-    
-    let triesElement = document.querySelector('.tries span')
-    
-    if (firstBlock.dataset.technology === secondBlock.dataset.technology) {
-        
-        firstBlock.classList.remove('is-flipped');
-        secondBlock.classList.remove('is-flipped');
-        
-        firstBlock.classList.add('matched');
-        secondBlock.classList.add('matched');
-        
-        document.getElementById('true').play();
+// =========================
+// تشغيل الأصوات
+// =========================
+
+function playSound(id) {
+    const sound =
+        document.getElementById(id);
+
+    if (!sound) {
+        return;
+    }
+
+    sound.currentTime = 0;
+
+    const playPromise =
+        sound.play();
+
+    if (
+        playPromise &&
+        typeof playPromise.catch === "function"
+    ) {
+        playPromise.catch(() => {});
+    }
+}
+
+function startBackgroundMusic() {
+    if (
+        !backgroundMusic ||
+        !musicEnabled
+    ) {
+        return;
+    }
+
+    backgroundMusic.loop = true;
+
+    // مستوى الصوت نصف القوة
+    backgroundMusic.volume = 0.5;
+
+    const musicPromise =
+        backgroundMusic.play();
+
+    if (
+        musicPromise &&
+        typeof musicPromise.catch === "function"
+    ) {
+        musicPromise.catch(() => {});
+    }
+}
+
+function stopBackgroundMusic() {
+    if (!backgroundMusic) {
+        return;
+    }
+
+    backgroundMusic.pause();
+}
+
+function updateMusicSwitch() {
+    if (!musicToggle) {
+        return;
+    }
+
+    musicToggle.classList.toggle(
+        "is-on",
+        musicEnabled
+    );
+
+    musicToggle.setAttribute(
+        "aria-pressed",
+        String(musicEnabled)
+    );
+
+    musicToggle.setAttribute(
+        "aria-label",
+        musicEnabled
+            ? "Turn background music off"
+            : "Turn background music on"
+    );
+
+    const stateText =
+        musicToggle.querySelector(
+            ".switch-state"
+        );
+
+    if (stateText) {
+        stateText.textContent =
+            musicEnabled ? "On" : "Off";
+    }
+}
+
+// زر تشغيل وإيقاف الموسيقى
+if (musicToggle) {
+    musicToggle.addEventListener(
+        "click",
+        () => {
+            musicEnabled = !musicEnabled;
+
+            updateMusicSwitch();
+
+            if (musicEnabled) {
+                startBackgroundMusic();
+            } else {
+                stopBackgroundMusic();
+            }
+        }
+    );
+}
+
+// =========================
+// اختيار مستوى الصعوبة
+// =========================
+
+function syncDifficultyControls() {
+    maxWrongAllowed =
+        Number(selectedDifficulty);
+
+    difficultyInputs.forEach((input) => {
+        input.checked =
+            input.value === selectedDifficulty;
+    });
+}
+
+difficultyInputs.forEach((input) => {
+    input.addEventListener(
+        "change",
+        () => {
+            selectedDifficulty =
+                input.value;
+
+            syncDifficultyControls();
+        }
+    );
+});
+
+// =========================
+// خلط الكروت
+// =========================
+
+function shuffle(array) {
+    let current = array.length;
+
+    while (current > 0) {
+        const random = Math.floor(
+            Math.random() * current
+        );
+
+        current--;
+
+        const temporary =
+            array[current];
+
+        array[current] =
+            array[random];
+
+        array[random] =
+            temporary;
+    }
+}
+
+function arrangeBlocks() {
+    shuffle(orderRange);
+
+    blocks.forEach((block, index) => {
+        block.style.order =
+            orderRange[index];
+    });
+}
+
+// =========================
+// إظهار وإخفاء الشاشات
+// =========================
+
+function showPanel(panel) {
+    if (!panel) {
+        return;
+    }
+
+    panel.style.display = "flex";
+
+    panel.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+function hidePanel(panel) {
+    if (!panel) {
+        return;
+    }
+
+    panel.style.display = "none";
+
+    panel.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+}
+
+// =========================
+// تعطيل الضغط مؤقتًا
+// =========================
+
+function stopClicking() {
+    if (!gameContainer) {
+        return;
+    }
+
+    gameContainer.classList.add(
+        "no-clicking"
+    );
+
+    setTimeout(() => {
+        gameContainer.classList.remove(
+            "no-clicking"
+        );
+    }, 1500);
+}
+
+// =========================
+// زر البداية
+// =========================
+
+if (startButton) {
+    startButton.addEventListener(
+        "click",
+        () => {
+            // يبدأ مباشرة بدون كتابة Yes
+            const enteredName =
+                prompt("Enter Your Name!");
+
+            const playerName =
+                enteredName === null ||
+                enteredName.trim() === ""
+                    ? "unknown"
+                    : enteredName.trim();
+
+            if (playerNameElement) {
+                playerNameElement.textContent =
+                    playerName;
+            }
+
+            hidePanel(startPanel);
+
+            startBackgroundMusic();
+
+            playSound("start-sound");
+        }
+    );
+}
+
+// =========================
+// قلب الكارت
+// =========================
+
+function flipBlock(selectedBlock) {
+    if (
+        !gameContainer ||
+        selectedBlock.classList.contains(
+            "matched"
+        ) ||
+        selectedBlock.classList.contains(
+            "is-flipped"
+        ) ||
+        gameContainer.classList.contains(
+            "no-clicking"
+        )
+    ) {
+        return;
+    }
+
+    selectedBlock.classList.add(
+        "is-flipped"
+    );
+
+    const flippedBlocks =
+        blocks.filter((block) =>
+            block.classList.contains(
+                "is-flipped"
+            )
+        );
+
+    if (flippedBlocks.length !== 2) {
+        return;
+    }
+
+    stopClicking();
+
+    checkMatchedBlocks(
+        flippedBlocks[0],
+        flippedBlocks[1]
+    );
+}
+
+// =========================
+// فحص تطابق الكروت
+// =========================
+
+function checkMatchedBlocks(
+    firstBlock,
+    secondBlock
+) {
+    const firstCard =
+        firstBlock.dataset.technology;
+
+    const secondCard =
+        secondBlock.dataset.technology;
+
+    // إذا كان الكارتان متطابقين
+    if (firstCard === secondCard) {
+        firstBlock.classList.remove(
+            "is-flipped"
+        );
+
+        secondBlock.classList.remove(
+            "is-flipped"
+        );
+
+        firstBlock.classList.add(
+            "matched"
+        );
+
+        secondBlock.classList.add(
+            "matched"
+        );
+
+        playSound("matched-sound");
 
         checkWin();
-    }
-    else{
-        triesElement.innerHTML = parseInt(triesElement.innerHTML) + 1;
-        setTimeout (() => { 
-            firstBlock.classList.remove('is-flipped'),
-            secondBlock.classList.remove('is-flipped')
-        }, 1500);
-        
-        document.getElementById('wrong').play();
 
-         checkLoss();
-    }
-    
-}
-
- function shuffle(array){
-    let current = array.length,
-    temp, 
-    random;
-    
-    while(current > 0){
-        
-        random = Math.floor(Math.random() * current);
-
-    current--;
-
-    temp = array[current];
-    
-    array[current] = array[random];
-    
-    array[random] = temp;
-}
-return array;
-}
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const tryButton = document.querySelector(".try");
-    
-    if (tryButton) {
-        tryButton.addEventListener("click", function() {
-            console.log("تم الضغط على الزر بنجاح!");
-            
-                let Sure = prompt("Are You Sure You Will lost Your Score?  Type 'Yes' To Continue ")
-    
-    if(Sure=="Yes" || Sure=="yes" || Sure=="YES" || Sure=="yEs" || Sure=="yeS"){
-
-    }
-    else{
         return;
     }
 
-            // 1. تصفير العداد (تأكد أن الكلاس أو العنصر ده هو اللي جواه الرقم عندك)
-            const triesSpan = document.querySelector(".tries span"); // عدل دي لو الـ span في مكان تاني
-            if (triesSpan) {
-                triesSpan.innerHTML = "0";
-            }
-            
-            // 2. خلط الكروت
-            if (typeof shuffle === "function" && typeof orderRange !== "undefined") {
-               setTimeout(() => {shuffle(orderRange);}, 1000)
-               
-                // 3. إعادة ترتيب الكروت بصرياً وشيل الكلاسات بتاعت القلب
-                const blockss = document.querySelectorAll(".blocks"); // عدل كلاس الكروت لو مختلف
-                blockss.forEach((blocks, index) => {
-                    blocks.style.order = orderRange[index];
-                    setTimeout(() => { blocks.classList.remove("is-flipped", "matched");}, 0)
-                });
-            }
-        });
-    } else {
-        console.log("عذراً، زرار .try غير موجود في الصفحة!");
-    }})
+    // إذا كان الكارتان غير متطابقين
+    if (triesElement) {
+        const currentTries =
+            Number(
+                triesElement.textContent
+            ) || 0;
 
-const maxWrongAllowed = 20; 
+        triesElement.textContent =
+            String(currentTries + 1);
+    }
+
+    playSound("wrong-sound");
+
+    checkLoss();
+
+    setTimeout(() => {
+        firstBlock.classList.remove(
+            "is-flipped"
+        );
+
+        secondBlock.classList.remove(
+            "is-flipped"
+        );
+    }, duration);
+}
+
+// =========================
+// فحص الخسارة
+// =========================
 
 function checkLoss() {
-    let currentTries = parseInt(document.querySelector('.tries span').innerHTML);
-    
-    if (currentTries >= maxWrongAllowed) {
-        const lostPanel = document.getElementById("lost-panel");
-        if (lostPanel) lostPanel.style.display = "flex";
-        
-        document.querySelector('.game-container').classList.add('no-clicking');
-        document.getElementById('lost').play();
+    const currentTries =
+        Number(
+            triesElement?.textContent
+        ) || 0;
+
+    if (
+        currentTries <
+        maxWrongAllowed
+    ) {
+        return;
     }
+
+    showPanel(lostPanel);
+
+    if (gameContainer) {
+        gameContainer.classList.add(
+            "no-clicking"
+        );
+    }
+
+    playSound("lost-sound");
 }
+
+// =========================
+// فحص الفوز
+// =========================
 
 function checkWin() {
-    const allBlocks = document.querySelectorAll(".blocks");
-    const matchedBlocks = document.querySelectorAll(".blocks.matched");
-    
-    if (allBlocks.length > 0 && matchedBlocks.length === allBlocks.length) {
-        setTimeout(() => {
-            const winPanel = document.getElementById("win-panel");
-            if (winPanel) winPanel.style.display = "flex";
-            
-            document.querySelector('.game-container').classList.add('no-clicking');
-            document.getElementById('win').play();
-        }, 500);
+    const matchedBlocks =
+        blocks.filter((block) =>
+            block.classList.contains(
+                "matched"
+            )
+        );
+
+    if (
+        matchedBlocks.length !==
+        blocks.length
+    ) {
+        return;
     }
+
+    const currentRound =
+        gameRound;
+
+    setTimeout(() => {
+        // منع ظهور شاشة فوز قديمة
+        // بعد بدء جولة جديدة
+        if (
+            currentRound !==
+            gameRound
+        ) {
+            return;
+        }
+
+        showPanel(winPanel);
+
+        if (gameContainer) {
+            gameContainer.classList.add(
+                "no-clicking"
+            );
+        }
+
+        playSound("win-sound");
+    }, 500);
 }
-// دالة موحدة لإعادة ضبط الجيم وتصفير الدنيا
+
+// =========================
+// إعادة تشغيل اللعبة
+// =========================
+
 function restartGame() {
-    // 1. إخفاء شاشات الفوز والخسارة
-    document.getElementById("win-panel").style.display = "none";
-    document.getElementById("lost-panel").style.display = "none";
-    
-    // 2. تصفير عداد الأخطاء المرئي على الشاشة
-    const triesElement = document.querySelector('.tries span');
+    gameRound++;
+
+    hidePanel(winPanel);
+    hidePanel(lostPanel);
+
     if (triesElement) {
-        triesElement.innerHTML = "0";
+        triesElement.textContent = "0";
     }
-    
-    // 3. إزالة كلاس منع النقر عن البورد
-    if (typeof blocksContainer !== 'undefined') {
-        blocksContainer.classList.remove('no-clicking');
+
+    if (gameContainer) {
+        gameContainer.classList.remove(
+            "no-clicking"
+        );
     }
-    
-    // 4. إعادة خلط وترتيب الكروت من جديد
-    if (typeof shuffle === 'function' && typeof orderRange !== 'undefined' && typeof blockss !== 'undefined') {
-        shuffle(orderRange);
-        blockss.forEach((blocks, index) => {
-            blocks.style.order = orderRange[index];
-            blocks.classList.remove("is-flipped", "matched");
-        });
-    } else {
-        // لو حابب تريح دماغك وتعمل ريفريش كامل للصفحة كحل سريع وأكيد:
-        location.reload();
+
+    blocks.forEach((block) => {
+        block.classList.remove(
+            "is-flipped",
+            "matched"
+        );
+    });
+
+    syncDifficultyControls();
+
+    arrangeBlocks();
+
+    if (musicEnabled) {
+        startBackgroundMusic();
     }
 }
 
-// تفعيل زرار شاشة الفوز
-const winBtn = document.getElementById('win-btn');
-if (winBtn) {
-    winBtn.addEventListener("click", restartGame);
+// زر إعادة اللعب من شاشة الفوز
+if (winButton) {
+    winButton.addEventListener(
+        "click",
+        restartGame
+    );
 }
 
-// تفعيل زرار شاشة الخسارة
-const lostBtn = document.getElementById('lost-btn');
-if (lostBtn) {
-    lostBtn.addEventListener("click", restartGame);
+// زر إعادة اللعب من شاشة الخسارة
+if (lostButton) {
+    lostButton.addEventListener(
+        "click",
+        restartGame
+    );
 }
+
+// زر Try Again الموجود أسفل اللعبة
+if (tryAgainButton) {
+    tryAgainButton.addEventListener(
+        "click",
+        restartGame
+    );
+}
+
+// =========================
+// تشغيل اللعبة
+// =========================
+
+createCards();
+
+syncDifficultyControls();
+
+updateMusicSwitch();
+
+arrangeBlocks();

@@ -1,203 +1,305 @@
 <!DOCTYPE html>
-<!-- ------------------------------------ -->
+<html lang="ar" dir="ltr">
 <head>
-    <meta charset="utf-8"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="E:\web dev 2 tests\memory game\MG.css">
+
+    <link rel="stylesheet" href="MG.css">
 </head>
-<!-- ------------------------------------ -->
+
 <body>
-    <div class="control-panel">
-        <span>Start New Game</span>
-    </div>
-    <!-- ------------------------------------ -->
-    <div class="info-container">
-        <div class="name">
-            Welcome: <span></span>
+
+    <!-- شاشة البداية -->
+    <section class="screen-panel start-panel" id="start-panel">
+        <div class="panel-card">
+            <p class="panel-kicker">Memory Game</p>
+
+            <h1>Get Ready To Play</h1>
+
+            <p class="panel-description">
+                Choose the difficulty and match all the cards.
+            </p>
+
+            <div class="difficulty-box">
+                <h2>اختر مستوى الصعوبة</h2>
+
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-start"
+                            value="20"
+                            data-difficulty
+                            checked>
+
+                        <span>
+                            سهل
+                            <strong>20</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-start"
+                            value="10"
+                            data-difficulty>
+
+                        <span>
+                            متوسط
+                            <strong>10</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-start"
+                            value="5"
+                            data-difficulty>
+
+                        <span>
+                            صعب
+                            <strong>5</strong>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button
+                class="primary-button"
+                id="start-btn"
+                type="button">
+
+                Start New Game
+            </button>
         </div>
-        <div class="tries">
-            Wrong tries: <span>0</span>
-        </div>
-    </div>
-    <!-- ------------------------------------ -->
-     <div class="game-container">
-        <div class="blocks" data-technology="apple">
-            <div class="front-blocks face">
+    </section>
+
+    <main class="page-content">
+
+        <!-- معلومات اللعبة -->
+        <div class="info-container">
+
+            <div class="info-item">
+                <span class="info-label">Welcome</span>
+                <strong id="player-name">unknown</strong>
             </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\apple (3).png" alt="">
+
+            <!-- زر الموسيقى -->
+            <div class="music-control">
+                <span class="info-label">Music</span>
+
+                <button
+                    class="music-switch is-on"
+                    id="music-toggle"
+                    type="button"
+                    aria-pressed="true"
+                    aria-label="Turn background music off">
+
+                    <span class="switch-track">
+                        <span class="switch-thumb"></span>
+                    </span>
+
+                    <span class="switch-state">On</span>
+                </button>
             </div>
-        </div>
-        <div class="blocks" data-technology="apple">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\apple (3).png">
-            </div>
-        </div>
-        <!-- ------------------------------------ -->
-        <div class="blocks" data-technology="pineapple">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\pineapple_4791196.png" alt="">
-            </div>
-        </div>
-        <div class="blocks" data-technology="pineapple">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\pineapple_4791196.png" alt="">
-            </div>
-        </div>
-        <!-- ------------------------------------ -->
-        <div class="blocks" data-technology="mango">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Mango.png" alt="">
-            </div>
-        </div>
-        <div class="blocks" data-technology="mango">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Mango.png" alt="ap">
-            </div>
-        </div>
-        <!-- ------------------------------------ -->
-        <div class="blocks" data-technology="blueberry">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Blue berry.png" alt="">
-            </div>
-        </div>
-        <div class="blocks" data-technology="blueberry">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Blue berry.png" alt="">
-            </div>
-        </div>
-        <!-- ------------------------------------ -->
-        <div class="blocks" data-technology="orange">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Orange.png" alt="">
-            </div>
-        </div>
-        <div class="blocks" data-technology="orange">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Orange.png" alt="">
-            </div>
-        </div>
-    <!-- ------------------------------------ -->
-    <div class="blocks" data-technology="grapes">
-        <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Grapes.png" alt="">
-            </div>
-        </div>
-        <div class="blocks" data-technology="grapes">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\Grapes.png" alt="">
-            </div>
-    </div>
-    <!-- ------------------------------------ -->
-    <div class="blocks" data-technology="strawberry">
-        <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\strawberry_19024878.png" alt="">
+
+            <div class="info-item tries">
+                <span class="info-label">Wrong tries</span>
+                <strong id="tries-count">0</strong>
             </div>
         </div>
-        <div class="blocks" data-technology="strawberry">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\strawberry_19024878.png" alt="">
-            </div>
-    </div>
-    <!-- ------------------------------------ -->
-    <div class="blocks" data-technology="bannana">
-        <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\banana_433682.png" alt="">
-            </div>
+
+        <!-- الكروت سيتم إنشاؤها من JavaScript -->
+        <div
+            class="game-container"
+            id="game-container">
         </div>
-        <div class="blocks" data-technology="bannana">
-            <div class="front-blocks face">
+
+        <!-- زر المحاولة مرة أخرى -->
+        <button
+            class="try-again-button"
+            id="try-again-btn"
+            type="button">
+
+            Try Again
+        </button>
+    </main>
+
+    <!-- شاشة الفوز -->
+    <section
+        class="screen-panel result-panel"
+        id="win-panel"
+        aria-hidden="true">
+
+        <div class="panel-card">
+            <p class="panel-kicker">Great job</p>
+
+            <h1>Nice! You Won</h1>
+
+            <div class="difficulty-box">
+                <h2>اختر مستوى الصعوبة</h2>
+
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-win"
+                            value="20"
+                            data-difficulty
+                            checked>
+
+                        <span>
+                            سهل
+                            <strong>20</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-win"
+                            value="10"
+                            data-difficulty>
+
+                        <span>
+                            متوسط
+                            <strong>10</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-win"
+                            value="5"
+                            data-difficulty>
+
+                        <span>
+                            صعب
+                            <strong>5</strong>
+                        </span>
+                    </label>
+                </div>
             </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\banana_433682.png" alt="">
-            </div>
-    </div>
-    <!-- ------------------------------------ -->
-    <div class="blocks" data-technology="kiwi">
-        <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\kiwi.png" alt="">
-            </div>
+
+            <button
+                class="primary-button"
+                id="win-btn"
+                type="button">
+
+                Start New Game
+            </button>
         </div>
-        <div class="blocks" data-technology="kiwi">
-            <div class="front-blocks face">
+    </section>
+
+    <!-- شاشة الخسارة -->
+    <section
+        class="screen-panel result-panel"
+        id="lost-panel"
+        aria-hidden="true">
+
+        <div class="panel-card">
+            <p class="panel-kicker">Keep trying</p>
+
+            <h1>Sorry! You Lost</h1>
+
+            <div class="difficulty-box">
+                <h2>اختر مستوى الصعوبة</h2>
+
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-lost"
+                            value="20"
+                            data-difficulty
+                            checked>
+
+                        <span>
+                            سهل
+                            <strong>20</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-lost"
+                            value="10"
+                            data-difficulty>
+
+                        <span>
+                            متوسط
+                            <strong>10</strong>
+                        </span>
+                    </label>
+
+                    <label class="difficulty-option">
+                        <input
+                            type="radio"
+                            name="difficulty-lost"
+                            value="5"
+                            data-difficulty>
+
+                        <span>
+                            صعب
+                            <strong>5</strong>
+                        </span>
+                    </label>
+                </div>
             </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\kiwi.png" alt="">
-            </div>
-    </div>
-    <!-- ------------------------------------ -->
-    <div class="blocks" data-technology="melon">
-        <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\fruit_13768533.png" alt="">
-            </div>
+
+            <button
+                class="primary-button"
+                id="lost-btn"
+                type="button">
+
+                Try Again
+            </button>
         </div>
-        <div class="blocks" data-technology="melon">
-            <div class="front-blocks face">
-            </div>
-            <div class="back-blocks face">
-                <img src="E:\web dev 2 tests\memory game\images\fruit_13768533.png" alt="">
-            </div>
-    </div>
-</div>
-<!-- ---------------------------- -->
-     <div class="control-panel-won" id="win-panel">
-        <h1> Nice! You Won </h1>
-        <br>
-        <span id="win-btn">Start New Game</span>
-    </div>
-<!-- ---------------------------- -->
-     <div class="control-panel-lost" id="lost-panel">
-        <h1> sorry! But You Lost </h1>
-        <br>
-        <span id="lost-btn">try again</span>
-    </div>
-<!-- ---------------------------- -->
-    <div class="try" id="try-ag">
-        <Span>Try Again</Span>
-    </div>
-<!-- ------------------------------------ -->
-     <audio src="E:\web dev 2 tests\memory game\audio\win.mp3" id="win" preload="auto"></audio>
-     <audio src="E:\web dev 2 tests\memory game\audio\lost.mp3" id="lost" preload="auto"></audio>
-     <audio src="E:\web dev 2 tests\memory game\audio\Matched.mp3" id="true" preload="auto"></audio>
-     <audio src="E:\web dev 2 tests\memory game\audio\wrong.mp3" id="wrong" preload="auto"></audio>
-     <audio src="E:\web dev 2 tests\memory game\audio\Start.mp3" id="start" preload="auto"></audio>
-     <audio src="E:\web dev 2 tests\memory game\audio\Music.mp3" id="music" preload="auto" loopgit push -u origin main></audio>
-    <!-- ------------------------------------ -->
-    <script src="E:\web dev 2 tests\memory game\MG.JS"></script>
-    <!-- ------------------------------------ -->
+    </section>
+
+    <!-- ملفات الصوت -->
+    <audio
+        id="music"
+        src="audio/Music.mp3"
+        preload="auto"
+        loop>
+    </audio>
+
+    <audio
+        id="start-sound"
+        src="audio/Start.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="win-sound"
+        src="audio/win.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="lost-sound"
+        src="audio/lost.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="matched-sound"
+        src="audio/Matched.mp3"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="wrong-sound"
+        src="audio/wrong.mp3"
+        preload="auto">
+    </audio>
+
+    <script src="MG.JS"></script>
 </body>
-<!-- ------------------------------------ -->
 </html>
